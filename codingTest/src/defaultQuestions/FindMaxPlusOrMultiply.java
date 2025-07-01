@@ -1,4 +1,4 @@
-package defaultQuestions;
+package codingTest.src.defaultQuestions;
 
 public class FindMaxPlusOrMultiply {
     public static void main(String[] args) {
