@@ -1,4 +1,4 @@
-package codingTest.src.search;
+package codingTest.src.sort;
 
 import java.util.Arrays;
 
