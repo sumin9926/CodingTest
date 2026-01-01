@@ -18,7 +18,7 @@ public class BestAlbum {
 
         for (int i = 0; i < genres.length; i++) {
             // 장르별 총 재생횟수 카운트
-            totalPlaysByGenre.put(genres[i], plays[i] + totalPlaysByGenre.getOrDefault(genres[i], 0));
+            totalPlaysByGenre.put(genres[i], Integer.valueOf(plays[i] + totalPlaysByGenre.getOrDefault(genres[i], Integer.valueOf(0))));
 
             // 장르별 곡을 재생횟수 기준으로 내림차순 정렬하여 저장
             PriorityQueue<IdAndPlayCnt> playCntPriorityQueue = playsByGenre.getOrDefault(genres[i], new PriorityQueue<>());
@@ -33,7 +33,7 @@ public class BestAlbum {
         for (String genre : GenreOrder) {
             PriorityQueue<IdAndPlayCnt> pq = playsByGenre.get(genre);
             for (int i = 0; i < 2 && !pq.isEmpty(); i++) {
-                answer.add(pq.poll().id);
+                answer.add(Integer.valueOf(pq.poll().id));
             }
         }
 
