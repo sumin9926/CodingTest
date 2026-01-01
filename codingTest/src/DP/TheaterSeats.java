@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class TheaterSeats {
@@ -17,7 +18,7 @@ public class TheaterSeats {
         int M = Integer.parseInt(br.readLine()); // 고정 좌석 수
         Set<Integer> assignedSeats = new HashSet<>(); // 고정 좌석 번호
         for (int i = 0; i < M; i++) {
-            assignedSeats.add(Integer.parseInt(br.readLine()));
+            assignedSeats.add(Integer.valueOf(Integer.parseInt(br.readLine())));
         }
         recordedFibo = new long[N+1];
         Arrays.fill(recordedFibo, 0);
@@ -35,7 +36,7 @@ public class TheaterSeats {
             // 연속하는 좌석 수 계산
             continuous++;
 
-            if(assignedSeats.contains(i)){
+            if(assignedSeats.contains(Optional.of(i))){
                 answer*=fibonacci(continuous-1); // 연속하는 좌석 수의 피보나치 값 계산 및 answer에 경우의 수 누적
                 continuous=0;
             }
