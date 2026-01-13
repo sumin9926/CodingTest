@@ -1,14 +1,14 @@
 package codingTest.src.sort;
 
 import java.io.*;
-import java.util.Arrays;
 
 public class NumberSorting2 {
+    static int[] nums, temps;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int N = Integer.parseInt(br.readLine());
-        int[] nums = new int[N];
+        nums = new int[N];
         for (int i = 0; i < N; i++) {
             nums[i] = Integer.parseInt(br.readLine());
         }
@@ -16,14 +16,11 @@ public class NumberSorting2 {
         // 오름차순 정렬
         // 퀵 정렬
 //        quickSort(nums, 0, N-1);
-//        for (int num : nums) {
-//            bw.write(Integer.toString(num));
-//            bw.newLine();
-//        }
 
-        // 병합 정렬
-        int[] sortedNums = mergeSort(nums);
-        for (int num : sortedNums) {
+        // 인덱스 기반 병합 정렬
+        temps = new int[N];
+        mergeSort(0, N-1);
+        for (int num : nums) {
             bw.write(Integer.toString(num));
             bw.newLine();
         }
@@ -31,39 +28,40 @@ public class NumberSorting2 {
         bw.close();
     }
 
-    // 병합 정렬 오름차순 구현
-    public static int[] mergeSort(int[] arr) {
-        if (arr.length <= 1) return arr;
+    // 인덱스 기반 병합 정렬 오름차순 구현
+    public static void mergeSort(int start, int end) {
+        if (start>=end) return;
         else {
-            int mid = arr.length / 2;
-            int[] leftArr = mergeSort(Arrays.copyOfRange(arr, 0, mid));
-            int[] rightArr = mergeSort(Arrays.copyOfRange(arr, mid, arr.length));
+            int mid = (end+start) / 2;
+            mergeSort(start, mid);
+            mergeSort(mid+1,end);
 
-            return merge(leftArr, rightArr);
+            merge(start, mid, end);
         }
     }
 
-    public static int[] merge(int[] leftArr, int[] rightArr) {
-        int[] mergedArr = new int[leftArr.length + rightArr.length];
-        int l = 0, r = 0, idx = 0;
+    public static void merge(int start, int mid, int end) {
+        int l = start, r = mid+1, idx = start;
 
-        while (l < leftArr.length && r < rightArr.length) {
-            if (leftArr[l] < rightArr[r]) {
-                mergedArr[idx++] = leftArr[l++];
+        while (l <= mid && r <= end) {
+            if (nums[l] <= nums[r]) {
+                temps[idx++] = nums[l++];
             } else {
-                mergedArr[idx++] = rightArr[r++];
+                temps[idx++] = nums[r++];
             }
         }
 
-        while (l < leftArr.length) {
-            mergedArr[idx++] = leftArr[l++];
+        while (l <= mid) {
+            temps[idx++] = nums[l++];
         }
 
-        while (r < rightArr.length) {
-            mergedArr[idx++] = rightArr[r++];
+        while (r <= end) {
+            temps[idx++] = nums[r++];
         }
 
-        return mergedArr;
+        for(int i=start; i<=end; i++){
+            nums[i]= temps[i];
+        }
     }
 
 //    // 퀵 정렬 오름차순 구현
