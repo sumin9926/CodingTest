@@ -9,26 +9,29 @@ public class CoordinateCompression {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        Set<Integer> numSet = new HashSet<>();
+        int[] sortedNum = new int[N];
         int[] nums = new int[N];
 
         StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i=0; i<N; i++){
-            nums[i]=Integer.parseInt(st.nextToken());
-            numSet.add(nums[i]);
+            int num = Integer.parseInt(st.nextToken());
+            nums[i]=num;
+            sortedNum[i]=num;
         }
 
-        Integer[] sortedNums = numSet.toArray(new Integer[0]);
-        Arrays.sort(sortedNums);
-        Map<Integer, Integer> compreesedCorMap = new HashMap<>();
-        for(int i=0; i<sortedNums.length; i++){
-            compreesedCorMap.put(sortedNums[i], i);
+        Arrays.sort(sortedNum);
+        //유니크 배열 생성
+        int idx=0;
+        for(int i=0; i<N; i++){
+            if(i==0||sortedNum[i]!=sortedNum[i-1]){
+                sortedNum[idx++]=sortedNum[i];
+            }
         }
 
         StringBuilder sb = new StringBuilder();
         for(int num:nums){
-            int idx = compreesedCorMap.get(num);
-            sb.append(idx).append(" ");
+            int c = Arrays.binarySearch(sortedNum, 0, idx, num);
+            sb.append(c).append(" ");
         }
 
         System.out.print(sb);
